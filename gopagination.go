@@ -17,12 +17,14 @@ import (
 // StartsWith = 7,
 // EndsWith = 8
 
+//ExpressionFilter is struct for add filtering in slice or array
 type ExpressionFilter struct {
 	PropertyName string      `json:"propertyname" form:"propertyname" query:"propertyname"`
 	Value        interface{} `json:"value" form:"value" query:"value"`
 	Comparison   int         `json:"comparison" form:"comparison" query:"comparison"`
 }
 
+//PaginationConfig is struct for add pagination in slice or array
 type PaginationConfig struct {
 	SortColumn        string             `json:"sortcolumn" form:"sortcolumn" query:"sortcolumn"`
 	IsAscending       bool               `json:"isascending" form:"isascending" query:"isascending"`
@@ -39,6 +41,7 @@ type filters struct {
 	Type         reflect.Type
 }
 
+//DoPagination is function of PaginationConfig struct for start pagination in slice or array - this return an slice and error
 func (dc PaginationConfig) DoPagination(datas interface{}) (interface{}, error) {
 	v := reflect.ValueOf(datas)
 	if !(v.Kind() == reflect.Slice || v.Kind() == reflect.Array) {
@@ -477,10 +480,9 @@ func calculatefilter(data interface{}, FilterTypes []filters, IsAnd bool) (bool,
 	}
 	if IsAnd {
 		return true, nil
-	} else {
-		return false, nil
-
 	}
+	return false, nil
+
 }
 
 func takecountofdatas(datas interface{}, skip, take int) interface{} {
@@ -561,7 +563,7 @@ func sortdata(datas interface{}, ColumnName string, IsAscending bool) (interface
 			}
 		}
 
-		end -= 1
+		end--
 
 	}
 
