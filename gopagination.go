@@ -273,7 +273,7 @@ func calculatefilter(data interface{}, FilterTypes []filters, IsAnd bool) (bool,
 					return false, errors.New("Invalid Comparison")
 				}
 				datavalue := float64(value.Interface().(float32))
-				filtervalue := float64(reflect.ValueOf(filter.Value).Interface().(float32))
+				filtervalue := reflect.ValueOf(filter.Value).Interface().(float64)
 				switch filter.Comparison {
 				case 0:
 					if datavalue == filtervalue {
