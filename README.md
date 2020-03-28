@@ -46,18 +46,27 @@ type ExpressionFilter struct {
 }
 ```
 Comparison is one of :
+<br>
 <b> 
  0 for Equal (=) 				// This use for numeric,time and string fields
+ <br>
  1 for LessThan (<)				// This use for numeric and time fields
+ <br>
  2 for LessThanOrEqual (<=)		// This use for numeric and time fields
+ <br>
  3 for GreaterThan (>)			// This use for numeric and time fields
+ <br>
  4 for GreaterThanOrEqual (>=)	// This use for numeric and time fields
+ <br>
  5 for NotEqual (!=)			// This use for numeric,time and string fields
+ <br>
  6 for Contains 				// This use for string fields
+ <br>
  7 for StartsWith 				// This use for string fields
+ <br>
  8 for EndsWith 				// This use for string fields
  </b>
- 
+ <br>
 ### Examples
 
 Imagine we have a struct named `Person` like this :
