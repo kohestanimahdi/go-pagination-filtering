@@ -14,7 +14,7 @@ Clinet send us what data needs and this package send response that client expect
 For install this package you should execute this 
 
 ```go
-go get -u github.com/kohestanimahdi/go-pagination-filtering
+go get github.com/kohestanimahdi/go-pagination-filtering
 ```
 
 ### Structs
