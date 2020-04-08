@@ -2,7 +2,9 @@ package gopagination
 
 import (
 	"errors"
+	"fmt"
 	"reflect"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -139,12 +141,20 @@ func calculatefilter(data interface{}, FilterTypes []filters, IsAnd bool) (bool,
 	for _, filter := range FilterTypes {
 		if val, ok := data.(reflect.Value); ok {
 			value := getdataoftype(val, filter.PropertyName)
-			if strings.Contains(strings.ToLower(filter.Type.Name()), "int") {
+			if strings.Contains(strings.ToLower(filter.Type.Name()), "int") || strings.Contains(strings.ToLower(filter.Type.Name()), "float") {
 				if filter.Comparison == 6 || filter.Comparison == 7 || filter.Comparison == 8 {
 					return false, errors.New("Invalid Comparison")
 				}
-				datavalue := float64(value.Int())
-				filtervalue := reflect.ValueOf(filter.Value).Interface().(float64)
+				filtervalue, err := strconv.ParseFloat(fmt.Sprintf("%v", reflect.ValueOf(filter.Value)), 64)
+				if err != nil {
+					return false, errors.New("Invalid Type Casting")
+				}
+				//b := fmt.Sprintf("%v", value)
+				datavalue, err := strconv.ParseFloat(fmt.Sprintf("%v", value), 64)
+				if err != nil {
+					return false, errors.New("Invalid Type Casting")
+				}
+
 				switch filter.Comparison {
 				case 0:
 					if datavalue == filtervalue {
@@ -257,145 +267,6 @@ func calculatefilter(data interface{}, FilterTypes []filters, IsAnd bool) (bool,
 					}
 				case 8:
 					if strings.HasSuffix(datavalue, filtervalue) {
-						if !IsAnd {
-							return true, nil
-						}
-					} else {
-						if IsAnd {
-							return false, nil
-						}
-					}
-				}
-
-			}
-			if strings.Contains(strings.ToLower(filter.Type.Name()), "float32") {
-				if filter.Comparison == 6 || filter.Comparison == 7 || filter.Comparison == 8 {
-					return false, errors.New("Invalid Comparison")
-				}
-				datavalue := float64(value.Interface().(float32))
-				filtervalue := reflect.ValueOf(filter.Value).Interface().(float64)
-				switch filter.Comparison {
-				case 0:
-					if datavalue == filtervalue {
-						if !IsAnd {
-							return true, nil
-						}
-					} else {
-						if IsAnd {
-							return false, nil
-						}
-					}
-				case 1:
-					if datavalue < filtervalue {
-						if !IsAnd {
-							return true, nil
-						}
-					} else {
-						if IsAnd {
-							return false, nil
-						}
-					}
-				case 2:
-					if datavalue <= filtervalue {
-						if !IsAnd {
-							return true, nil
-						}
-					} else {
-						if IsAnd {
-							return false, nil
-						}
-					}
-				case 3:
-					if datavalue > filtervalue {
-						if !IsAnd {
-							return true, nil
-						}
-					} else {
-						if IsAnd {
-							return false, nil
-						}
-					}
-				case 4:
-					if datavalue >= filtervalue {
-						if !IsAnd {
-							return true, nil
-						}
-					} else {
-						if IsAnd {
-							return false, nil
-						}
-					}
-				case 5:
-					if datavalue != filtervalue {
-						if !IsAnd {
-							return true, nil
-						}
-					} else {
-						if IsAnd {
-							return false, nil
-						}
-					}
-				}
-			}
-			if strings.Contains(strings.ToLower(filter.Type.Name()), "float64") {
-				if filter.Comparison == 6 || filter.Comparison == 7 || filter.Comparison == 8 {
-					return false, errors.New("Invalid Comparison")
-				}
-				datavalue := value.Interface().(float64)
-				filtervalue := reflect.ValueOf(filter.Value).Interface().(float64)
-				switch filter.Comparison {
-				case 0:
-					if datavalue == filtervalue {
-						if !IsAnd {
-							return true, nil
-						}
-					} else {
-						if IsAnd {
-							return false, nil
-						}
-					}
-				case 1:
-					if datavalue < filtervalue {
-						if !IsAnd {
-							return true, nil
-						}
-					} else {
-						if IsAnd {
-							return false, nil
-						}
-					}
-				case 2:
-					if datavalue <= filtervalue {
-						if !IsAnd {
-							return true, nil
-						}
-					} else {
-						if IsAnd {
-							return false, nil
-						}
-					}
-				case 3:
-					if datavalue > filtervalue {
-						if !IsAnd {
-							return true, nil
-						}
-					} else {
-						if IsAnd {
-							return false, nil
-						}
-					}
-				case 4:
-					if datavalue >= filtervalue {
-						if !IsAnd {
-							return true, nil
-						}
-					} else {
-						if IsAnd {
-							return false, nil
-						}
-					}
-				case 5:
-					if datavalue != filtervalue {
 						if !IsAnd {
 							return true, nil
 						}

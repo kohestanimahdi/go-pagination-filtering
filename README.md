@@ -47,7 +47,7 @@ type ExpressionFilter struct {
 ```
 Comparison is one of :
 <br>
-<b> 
+
  0 for Equal (=) 				// This use for numeric,time and string fields
  <br>
  1 for LessThan (<)				// This use for numeric and time fields
@@ -65,7 +65,7 @@ Comparison is one of :
  7 for StartsWith 				// This use for string fields
  <br>
  8 for EndsWith 				// This use for string fields
- </b>
+
  <br>
 ### Examples
 
